@@ -4,6 +4,54 @@ const todoInput = document.getElementById('todo-input');
 const errorMessage = document.getElementById('error-message');
 const todoList = document.getElementById('todo-list');
 
+// 필터 버튼 요소
+const filterAll = document.getElementById('filter-all');
+const filterActive = document.getElementById('filter-active');
+const filterCompleted = document.getElementById('filter-completed');
+let currentFilter = 'all';
+
+
+
+// 현재 필터 상태에 따라 Todo 목록을 필터링하는 함수
+function applyFilter() {
+
+    // **직접 수정** 전체, 진행 중, 완료 필터 버튼 옆에 할 일 개수 표시
+    var Allcnt = filterAll.querySelector('.filter-cnt');
+    var Activecnt = filterActive.querySelector('.filter-cnt');
+    var Completedcnt = filterCompleted.querySelector('.filter-cnt');
+    Allcnt.textContent = todoList.getElementsByTagName('li').length;
+    Completedcnt.textContent = todoList.getElementsByClassName('completed').length;
+    Activecnt.textContent = Allcnt.textContent - Completedcnt.textContent;
+    
+    const todos = todoList.querySelectorAll('li');
+    todos.forEach(li => {
+        const isCompleted = li.classList.contains('completed');
+        if (currentFilter === 'all') {
+            li.classList.remove('hidden');
+        } else if (currentFilter === 'active') {
+            isCompleted ? li.classList.add('hidden') : li.classList.remove('hidden');
+        } else if (currentFilter === 'completed') {
+            isCompleted ? li.classList.remove('hidden') : li.classList.add('hidden');
+        }
+    });
+}
+
+// 필터 버튼 클릭 이벤트 설정
+[filterAll, filterActive, filterCompleted].forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        // 모든 필터 버튼에서 active 클래스 제거 후 클릭된 버튼에 추가
+        [filterAll, filterActive, filterCompleted].forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // 필터 상태 업데이트
+        if (btn === filterAll) currentFilter = 'all';
+        else if (btn === filterActive) currentFilter = 'active';
+        else if (btn === filterCompleted) currentFilter = 'completed';
+        
+        applyFilter();
+    });
+});
+
 // 할 일 추가 함수
 function addTodo(task) {
     const li = document.createElement('li');
@@ -13,7 +61,10 @@ function addTodo(task) {
     span.className = 'todo-text';
     span.textContent = task;
     // 텍스트 클릭 시에도 완료 처리
-    span.onclick = () => li.classList.toggle('completed');
+    span.onclick = () => {
+        li.classList.toggle('completed');
+        applyFilter();
+    };
     li.appendChild(span);
 
     // 버튼 컨테이너
@@ -24,7 +75,10 @@ function addTodo(task) {
     const completeButton = document.createElement('button');
     completeButton.textContent = '완료';
     completeButton.className = 'btn complete-btn';
-    completeButton.onclick = () => li.classList.toggle('completed');
+    completeButton.onclick = () => {
+        li.classList.toggle('completed');
+        applyFilter();
+    };
     actionBtns.appendChild(completeButton);
 
     // 수정 버튼
@@ -64,6 +118,9 @@ function addTodo(task) {
     setTimeout(()=>{
         li.classList.add("fade");
     })
+    
+    // 신규 할 일 추가 시에도 현재 필터 적용
+    applyFilter();
 }
 
 // 폼 제출 이벤트 핸들러

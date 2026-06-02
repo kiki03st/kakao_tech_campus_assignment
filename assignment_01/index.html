@@ -14,6 +14,11 @@
             <button type="submit">추가</button>
         </form>
         <p id="error-message" class="hidden">할 일을 입력해주세요.</p>
+        <div class="filters">
+            <button id="filter-all" class="active">전체<span class="filter-cnt">0</span></button>
+            <button id="filter-active">진행 중<span class="filter-cnt">0</span></button>
+            <button id="filter-completed">완료<span class="filter-cnt">0</span></button>
+        </div>
         <ul id="todo-list"></ul>
     </div>
     <script src="app.js"></script>

@@ -44,6 +44,11 @@ input:focus {
 }
 
 button {
+    /* **직접 수정** 필터 버튼 옆에 개수 표시를 위해 flex로 변경 및 가운데 정렬 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     background-color: var(--main-color);
     color: white;
     border: none;
@@ -66,6 +71,29 @@ button {
 ul {
     list-style: none;
     padding: 0;
+}
+
+.filters {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.filters button {
+    padding: 6px 12px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 6px;
+    color: #666;
+    font-weight: normal;
+}
+
+.filters button.active {
+    background-color: var(--main-color);
+    color: white;
+    border-color: var(--main-color);
+    font-weight: bold;
 }
 
 li {
@@ -112,4 +140,14 @@ button.btn {
 .todo.fade{
     opacity: 1;
     transition: 0.5s;
+}
+
+/* **직접 수정** 필터 버튼 옆에 할 일 개수 표시 레이아웃.  */
+.filter-cnt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 2px;
 }
