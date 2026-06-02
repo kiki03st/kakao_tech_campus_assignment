@@ -10,7 +10,41 @@ const filterActive = document.getElementById('filter-active');
 const filterCompleted = document.getElementById('filter-completed');
 let currentFilter = 'all';
 
+// 날짜 관리 변수
+const dateDisplay = document.getElementById('current-date-display');
+const prevDateBtn = document.getElementById('prev-date');
+const nextDateBtn = document.getElementById('next-date');
+let selectedDate = new Date();
 
+// 날짜를 YYYY-MM-DD 형식의 문자열로 변환하는 함수
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// 화면의 날짜 표시를 업데이트하는 함수
+function updateDateDisplay() {
+    const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+    dateDisplay.textContent = selectedDate.toLocaleDateString('ko-KR', options);
+}
+
+// 날짜 이동 이벤트 리스너
+prevDateBtn.addEventListener('click', () => {
+    selectedDate.setDate(selectedDate.getDate() - 1);
+    updateDateDisplay();
+    applyFilter();
+});
+
+nextDateBtn.addEventListener('click', () => {
+    selectedDate.setDate(selectedDate.getDate() + 1);
+    updateDateDisplay();
+    applyFilter();
+});
+
+// 초기 날짜 표시
+updateDateDisplay();
 
 // 현재 필터 상태에 따라 Todo 목록을 필터링하는 함수
 function applyFilter() {
@@ -19,13 +53,34 @@ function applyFilter() {
     var Allcnt = filterAll.querySelector('.filter-cnt');
     var Activecnt = filterActive.querySelector('.filter-cnt');
     var Completedcnt = filterCompleted.querySelector('.filter-cnt');
-    Allcnt.textContent = todoList.getElementsByTagName('li').length;
-    Completedcnt.textContent = todoList.getElementsByClassName('completed').length;
-    Activecnt.textContent = Allcnt.textContent - Completedcnt.textContent;
+    Allcnt.textContent = 0;
+    Activecnt.textContent = 0;
+    Completedcnt.textContent = 0;
     
+    // **직접 수정** 날짜 별 개수를 표시해야 하므로 todoList에서 날짜가 일치하는 요소들만 세어서 개수 표시
+    for(var i = 0; i < todoList.children.length; i++){
+        var li = todoList.children[i];
+        if(li.dataset.date === formatDate(selectedDate)){
+            Allcnt.textContent++;
+            if(li.classList.contains('completed')) Completedcnt.textContent++;
+            else Activecnt.textContent++;
+        }
+    }
+
     const todos = todoList.querySelectorAll('li');
+    const targetDateStr = formatDate(selectedDate);
+
     todos.forEach(li => {
         const isCompleted = li.classList.contains('completed');
+        const todoDate = li.dataset.date;
+        
+        // 날짜가 다르면 숨김
+        if (todoDate !== targetDateStr) {
+            li.classList.add('hidden');
+            return;
+        }
+
+        // 현재 상태 필터 적용
         if (currentFilter === 'all') {
             li.classList.remove('hidden');
         } else if (currentFilter === 'active') {
@@ -55,6 +110,8 @@ function applyFilter() {
 // 할 일 추가 함수
 function addTodo(task) {
     const li = document.createElement('li');
+    // 현재 선택된 날짜 저장
+    li.dataset.date = formatDate(selectedDate);
     
     // 할 일 텍스트 요소
     const span = document.createElement('span');

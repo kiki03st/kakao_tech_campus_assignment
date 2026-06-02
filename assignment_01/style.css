@@ -19,6 +19,31 @@ body {
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
+.date-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.date-nav h2 {
+    margin: 0;
+    font-size: 18px;
+    color: #555;
+}
+
+.date-nav button {
+    background: none;
+    color: var(--main-color);
+    font-size: 20px;
+    padding: 5px 10px;
+    border: 1px solid #eee;
+}
+
+.date-nav button:hover {
+    background-color: #f0f0f0;
+}
+
 h1 {
     color: #333;
     font-size: 24px;
