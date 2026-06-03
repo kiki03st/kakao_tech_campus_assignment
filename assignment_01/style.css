@@ -1,6 +1,56 @@
+/* 주간 뷰 스타일 */
+.weekly-view {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+#days-container {
+    display: flex;
+    gap: 5px;
+}
+
+.day-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 40px;
+    font-size: 12px;
+}
+
+.day-card:hover {
+    background-color: #eee;
+}
+
+.day-card.selected {
+    background-color: var(--main-color);
+    color: white;
+}
+
+.day-card.today {
+    border: 2px solid var(--main-color);
+    font-weight: bold;
+}
+
+.day-card .day-name {
+    margin-bottom: 2px;
+}
+
+.day-card .todo-cnt {
+    font-size: 10px;
+}
+
 :root {
     --main-color: #672be0;
 }
+
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -12,7 +62,7 @@ body {
 }
 
 .container {
-    width: 400px;
+    width: 500px;
     background: white;
     padding: 20px;
     border-radius: 12px;
