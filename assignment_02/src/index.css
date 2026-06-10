@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+/* 기존 과제의 메인 컬러를 Tailwind 테마 토큰으로 등록 */
+@theme {
+  --color-main: #672be0;
+}
+
+/* 기존 style.css의 body 설정 재현 */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+    /* **직접 수정** display: flex; justify-content: center 삭제를 통해 레이아웃 속 컴포넌트들의 최소 너비의 합이 화면 전체 너비보다 클 경우에 대응하도록 설계*/
+
+  padding-top: 50px;
+  background-color: #f4f4f9;
+  margin: 0;
+}
