@@ -3,13 +3,14 @@
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { formatDate, addDays, parseDate, getWeekStart } from '../_lib/date'
+import { toggleTodo as toggleTodoAction, deleteTodo as deleteTodoAction } from '../actions'
 import WeeklyView from './WeeklyView'
 import Filters from './Filters'
 import TodoList from './TodoList'
 import type { Todo } from './TodoItem'
 
 const LAST_DATE_KEY = 'lastDate'
-const API = 'http://localhost:8000'
+const API = '/api/todos'
 
 function loadInitialDate(): Date {
   try {
@@ -41,19 +42,19 @@ export default function TodoApp() {
   }, [selectedDateStr])
 
   const fetchTodos = useCallback(async () => {
-    const res = await fetch(`${API}/todos`)
+    const res = await fetch(API)
     if (res.ok) setTodos(await res.json())
   }, [])
 
   useEffect(() => { fetchTodos() }, [fetchTodos])
 
   const toggleTodo = async (id: number) => {
-    await fetch(`${API}/todos/${id}`, { method: 'PUT' })
+    await toggleTodoAction(id)
     fetchTodos()
   }
 
   const deleteTodo = async (id: number) => {
-    await fetch(`${API}/todos/${id}`, { method: 'DELETE' })
+    await deleteTodoAction(id)
     fetchTodos()
   }
 

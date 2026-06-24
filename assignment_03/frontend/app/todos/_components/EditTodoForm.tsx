@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { editTodo } from '../actions'
 
 type Todo = {
   id: number
@@ -25,11 +26,7 @@ export default function EditTodoForm({ todo }: { todo: Todo }) {
     }
     setTitleError(false)
     setSubmitting(true)
-    await fetch(`http://localhost:8000/todos/${todo.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: title.trim(), date: date || null }),
-    })
+    await editTodo(todo.id, title.trim(), date || null)
     router.push('/todos')
   }
 

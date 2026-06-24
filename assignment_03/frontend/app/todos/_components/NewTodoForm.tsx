@@ -1,13 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { formatDate } from '../_lib/date'
+import { createTodo } from '../actions'
 
 export default function NewTodoForm() {
   const router = useRouter()
   const [title, setTitle] = useState('')
-  const [date, setDate] = useState(() => localStorage.getItem('lastDate') ?? formatDate(new Date()))
+  const [date, setDate] = useState(formatDate(new Date()))
+
+  useEffect(() => {
+    const saved = localStorage.getItem('lastDate')
+    if (saved) setDate(saved)
+  }, [])
   const [titleError, setTitleError] = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
@@ -19,11 +25,7 @@ export default function NewTodoForm() {
     }
     setTitleError(false)
     setSubmitting(true)
-    await fetch('http://localhost:8000/todos', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: title.trim(), date }),
-    })
+    await createTodo(title.trim(), date)
     router.push('/todos')
   }
 
