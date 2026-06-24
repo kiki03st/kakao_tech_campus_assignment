@@ -47,15 +47,6 @@ export default function TodoApp() {
 
   useEffect(() => { fetchTodos() }, [fetchTodos])
 
-  const editTodo = async (id: number, title: string) => {
-    await fetch(`${API}/todos/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title }),
-    })
-    fetchTodos()
-  }
-
   const toggleTodo = async (id: number) => {
     await fetch(`${API}/todos/${id}`, { method: 'PUT' })
     fetchTodos()
@@ -106,7 +97,6 @@ export default function TodoApp() {
         <TodoList
           todos={visibleTodos}
           onToggle={toggleTodo}
-          onEdit={editTodo}
           onDelete={deleteTodo}
         />
       </div>

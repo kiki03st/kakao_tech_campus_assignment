@@ -27,6 +27,7 @@ class TodoCreate(BaseModel):
 
 class TodoUpdate(BaseModel):
     title: str
+    date: str | None = None
 
 class TodoResponse(BaseModel):
     id: int
@@ -75,6 +76,13 @@ def create_todo(todo: TodoCreate, db = Depends(get_db)):
     db.refresh(db_todo)
     return db_todo
 
+@app.get("/todos/{todo_id}", response_model=TodoResponse)
+def get_todo(todo_id: int, db=Depends(get_db)):
+    db_todo = db.query(Todo).filter(Todo.id == todo_id).first()
+    if db_todo is None:
+        raise HTTPException(status_code=404, detail="Todo not found")
+    return db_todo
+
 @app.put("/todos/{todo_id}", response_model = TodoResponse)
 def update_todo(todo_id: int, db = Depends(get_db)):
     db_todo = db.query(Todo).filter(Todo.id == todo_id).first()
@@ -91,6 +99,8 @@ def edit_todo(todo_id: int, body: TodoUpdate, db=Depends(get_db)):
     if db_todo is None:
         raise HTTPException(status_code = 404, detail = "Todo not found")
     db_todo.title = body.title
+    if body.date is not None:
+        db_todo.date = body.date
     db.commit()
     db.refresh(db_todo)
     return db_todo

@@ -17,7 +17,6 @@
 ## 미완료
 
 ### Frontend (`frontend/`)
-- `app/todos/[todoId]/page.tsx` — Todo 수정 페이지
 - `app/todos/error.tsx` — 에러 화면
 - `app/todos/loading.tsx` — 로딩 화면
 
