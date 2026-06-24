@@ -17,11 +17,19 @@
 ## 미완료
 
 ### Frontend (`frontend/`)
-
-- `app/todos/new/page.tsx` — Todo 생성 페이지
 - `app/todos/[todoId]/page.tsx` — Todo 수정 페이지
 - `app/todos/error.tsx` — 에러 화면
 - `app/todos/loading.tsx` — 로딩 화면
+
+## 완료 (Frontend) — 추가
+
+### `app/todos/new/page.tsx` — Todo 생성 페이지
+
+- `new/page.tsx` — Server Component
+- `_components/NewTodoForm.tsx` — Client Component
+  - 제목 입력 + 날짜 입력 (오늘 날짜 기본값)
+  - 추가 버튼 → `POST /todos` → `/todos`로 이동
+  - 취소 버튼 → `/todos`로 이동
 
 ## 완료 (Frontend)
 

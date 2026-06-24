@@ -1,9 +1,9 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import Link from 'next/link'
 import { formatDate, addDays, parseDate, getWeekStart } from '../_lib/date'
 import WeeklyView from './WeeklyView'
-import TodoForm from './TodoForm'
 import Filters from './Filters'
 import TodoList from './TodoList'
 import type { Todo } from './TodoItem'
@@ -46,15 +46,6 @@ export default function TodoApp() {
   }, [])
 
   useEffect(() => { fetchTodos() }, [fetchTodos])
-
-  const addTodo = async (task: string) => {
-    await fetch(`${API}/todos`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: task, date: selectedDateStr }),
-    })
-    fetchTodos()
-  }
 
   const editTodo = async (id: number, title: string) => {
     await fetch(`${API}/todos/${id}`, {
@@ -102,8 +93,15 @@ export default function TodoApp() {
           onSelectDay={setSelectedDate}
           countByDate={countByDate}
         />
-        <h1 className="mb-5 text-2xl text-[#333]">오늘의 할 일</h1>
-        <TodoForm onAdd={addTodo} />
+        <div className="mb-5 flex items-center justify-between">
+          <h1 className="text-2xl text-[#333]">오늘의 할 일</h1>
+          <Link
+            href="/todos/new"
+            className="cursor-pointer rounded-md bg-main px-4 py-2 text-sm font-bold text-white"
+          >
+            + 추가
+          </Link>
+        </div>
         <Filters filter={filter} onChange={setFilter} counts={counts} />
         <TodoList
           todos={visibleTodos}
