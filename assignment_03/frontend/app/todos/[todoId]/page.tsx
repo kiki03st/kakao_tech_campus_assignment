@@ -8,7 +8,7 @@ type Todo = {
 }
 
 async function getTodo(id: string): Promise<Todo> {
-  const res = await fetch(`http://localhost:3000/api/todos/${id}`, { cache: 'no-store' })
+  const res = await fetch(`${process.env.BACKEND_URL}/todos/${id}`, { cache: 'no-store' })
   if (!res.ok) throw new Error('할 일을 불러오지 못했습니다.')
   return res.json()
 }

@@ -1,4 +1,4 @@
-const BACKEND = 'http://localhost:8000'
+const BACKEND = process.env.BACKEND_URL
 
 export async function GET() {
   const res = await fetch(`${BACKEND}/todos`, { cache: 'no-store' })

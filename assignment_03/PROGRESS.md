@@ -49,6 +49,13 @@
 - `app/api/todos/[todoId]/route.ts` — `GET`, `PUT`, `PATCH`, `DELETE` FastAPI 프록시
 - `app/todos/actions.ts` — `createTodo`, `toggleTodo`, `editTodo`, `deleteTodo` + `revalidatePath`
 
+#### 환경변수
+
+- `frontend/.env.local` — `BACKEND_URL=http://localhost:8000`
+  - `app/api/todos/route.ts`, `app/api/todos/[todoId]/route.ts`, `app/todos/actions.ts`, `app/todos/[todoId]/page.tsx`에서 `process.env.BACKEND_URL` 사용
+- `backend/.env` — `DATABASE_URL`, `ALLOWED_ORIGINS`
+  - `python-dotenv` 추가, `main.py`에서 `os.getenv()`로 읽기
+
 ## 미완료
 
 없음

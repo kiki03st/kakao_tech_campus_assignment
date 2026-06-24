@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 
-const BACKEND = 'http://localhost:8000'
+const BACKEND = process.env.BACKEND_URL
 
 export async function createTodo(title: string, date: string) {
   await fetch(`${BACKEND}/todos`, {

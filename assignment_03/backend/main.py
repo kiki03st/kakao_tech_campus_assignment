@@ -4,9 +4,13 @@ from sqlalchemy import create_engine, Column, Integer, String, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from pydantic import BaseModel
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # DB 설정
-DATABASE_URL = "sqlite:///./todos.db"
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./todos.db")
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
@@ -48,7 +52,7 @@ app = FastAPI(title="Todo API")
 app.add_middleware(
     # 필요한 부분을 직접 작성해보세요.
     CORSMiddleware,
-    allow_origins = ["http://localhost:3000"],
+    allow_origins = os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(","),
     allow_methods = ["*"],
     allow_headers = ["*"],
 )
